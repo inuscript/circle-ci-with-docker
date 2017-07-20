@@ -15,7 +15,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: |
-        docker build -t my-app .
+          docker build -t my-app .
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -23,7 +23,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn install
+      - run: docker run my-app npm install
 
       - save_cache:
           paths:
@@ -31,5 +31,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: docker run my-app yarn test
+      - run: docker run my-app npm test
 
